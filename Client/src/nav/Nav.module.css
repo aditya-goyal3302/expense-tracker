@@ -1,0 +1,32 @@
+.nav{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 100px;
+}
+.nav>div>ul{
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+.nav>div>ul>li{
+    margin: 0 10px;
+}
+img{
+    height: 40px;
+    /* width: 20px; */
+}
+.nav>div>ul>li>a{
+    text-decoration: none;
+    color: #0000006c;
+    font-weight: 700;
+    font-size: large;
+}
+.nav>div>ul>li>a:hover,
+.active{
+    color: #000000 !important;
+}
