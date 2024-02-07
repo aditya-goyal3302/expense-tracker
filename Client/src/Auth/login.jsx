@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
+import StyleSheet from './login.module.css';
+import axios from 'axios';
+import {useDispatch} from 'react-redux'
+import {Login} from '../Store/userSlice'
 
-const LoginPage = () => {
-    const [username, setUsername] = useState('');
+
+const LoginPage = ( {setPage} ) => {
+    const [email, setemail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const dispatch = useDispatch()
 
-    const handleUsernameChange = (e) => {
-        setUsername(e.target.value);
+
+    const handleemailChange = (e) => {
+        setemail(e.target.value);
     };
 
     const handlePasswordChange = (e) => {
@@ -14,25 +22,46 @@ const LoginPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setError('')
+        axios.post('/admin/login',{
+            method:"POST",
+            body:JSON.stringify({
+                email: email,
+                password: password
+            }),
+            headers:{ 
+                "Content-Type":"application/json"
+            }
+        }).then((res) => {
+            console.log(res.data)
+            if(res.data.code===1){
+                dispatch(Login(res.data.data))
+            }
+            else{   
+                setError(res.data.e)
+            }
+        })
         // Perform login logic here
     };
 
     return (
-        <div>
+        <div className={StyleSheet.main}> 
             <h2>Login</h2>
+            {error !=='' && <p style={{color: 'red',textAlign:"center"}}>{error}</p>}
             <form onSubmit={handleSubmit}>
-                <label>
-                    Username:
-                    <input type="text" value={username} onChange={handleUsernameChange} />
-                </label>
+                <div>
+                    <label>email: </label>
+                    <input type="text" value={email} onChange={handleemailChange} />
+                </div>
                 <br />
-                <label>
-                    Password:
+                <div>
+                    <label>Password: &nbsp;</label>
                     <input type="password" value={password} onChange={handlePasswordChange} />
-                </label>
+                </div>
                 <br />
                 <button type="submit">Login</button>
             </form>
+            <button className={StyleSheet.cbtn} onClick={()=>{setPage(2)}}>Not a User? Signup Here</button>
         </div>
     );
 };

@@ -58,3 +58,15 @@
     width: 100%;
     height: 50px;
 }
+.btns{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 100%;
+    height: 50px;
+
+}
+.btnstyl{
+    border-radius:45% !important;
+    width: 100px;
+}
