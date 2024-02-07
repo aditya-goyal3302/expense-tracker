@@ -13,7 +13,7 @@ code {
     monospace;
 }
 #root{
-  padding:0 25%;
+  padding:0 20%;
 }
 @media screen and (max-width: 1440px){
   #root{
