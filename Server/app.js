@@ -6,6 +6,7 @@ const MONGODB_URI =
   'mongodb+srv://agdoie-app:0ISZL1RJpYp6FDUM@cluster0.7hawrym.mongodb.net/expence_tracker';
 const adminRoutes = require('./Routes/admin');
 
+const jwt = require('jsonwebtoken')
 
 app.use(bodyParser.json());
 

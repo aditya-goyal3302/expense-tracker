@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../Models/user');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 
 exports.signup = async (req, res) => {
@@ -21,7 +22,8 @@ exports.signup = async (req, res) => {
 }
 
 exports.login = async (req, res) => {
-    const data = JSON.parse(req.body.body);
+    console.log(req.body.body)
+    const data = req.body.body;
     const user = await User
         .findOne({ email: data.email })
     if (!user) {
@@ -32,8 +34,9 @@ exports.login = async (req, res) => {
         return res.send({code:2,e:"Invalid email or password"});
     }
     else{
-        req.session.user = user;
-        req.session.isAuth = true;
+        const token = jwt.sign({email:user.email,userId:user._id},'secret',{expiresIn:'2d'});
+        // req.session.user = user;
+        // req.session.isAuth = true;
         const userdata = {
             id:user._id,
             name:user.name,
@@ -43,7 +46,7 @@ exports.login = async (req, res) => {
             transactions:user.transactions,
             image:user.image
         }
-        res.send({code:1,e:"Logged in",data:userdata});
+        res.send({code:1,data:userdata,token:token});
     }
 }
 
